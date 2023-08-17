@@ -10,8 +10,8 @@ type Props = {
 export const Container = styled(TouchableOpacity)<Props>`
   flex: 1;
 
-  max-width: 56px;
-  min-height: 56px;
+  min-width: 56px;
+  max-height: 56px;
 
   background-color: ${({theme, type}) => type === 'PRIMARY' ? theme.COLORS.GREEN_700 : theme.COLORS.RED_DARK};
 
