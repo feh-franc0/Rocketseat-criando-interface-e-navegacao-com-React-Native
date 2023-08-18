@@ -1,15 +1,18 @@
-import { Header } from "@components/Header";
-import { Container, Form, HeaderList, NumbersOfPlayers } from "./styles";
-import { Highlight } from "@components/Highlight";
-import { ButtonIcon } from "@components/ButtonIcon";
+import { useState } from "react";
+import { FlatList } from "react-native";
+
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
-import { FlatList } from "react-native";
-import { useState } from "react";
+import { Header } from "@components/Header";
+import { Highlight } from "@components/Highlight";
+import { ButtonIcon } from "@components/ButtonIcon";
+import { PlayerCard } from "@components/PlayerCard";
+
+import { Container, Form, HeaderList, NumbersOfPlayers } from "./styles";
 
 export function Players() {
   const [team, setTeam] = useState('Time A')
-  const [players, setPlayers] = useState([])
+  const [players, setPlayers] = useState(['Fernando', 'Vini'])
 
   return (
     <Container>
@@ -50,6 +53,16 @@ export function Players() {
       </NumbersOfPlayers>
     </HeaderList>
     
+    <FlatList 
+      data={players}
+      keyExtractor={item => item}
+      renderItem={({item}) => (
+        <PlayerCard 
+          name={item} 
+          onRemove={() => {}}
+        />
+      )}
+    />
     </Container>
   )
 }
