@@ -10,6 +10,10 @@ import { Button } from '@components/Button';
 
 export function Groups() {
   const [groups, setGroups] = useState<string[]>([]);
+
+  function handleNewGroup() {
+
+  }
   
   return (
     <Container>
@@ -39,6 +43,7 @@ export function Groups() {
 
       <Button
         title='Criar nova turma'
+        onPress={handleNewGroup}
       />
     </Container>
   );
