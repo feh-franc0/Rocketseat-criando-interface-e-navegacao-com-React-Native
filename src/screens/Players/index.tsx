@@ -14,7 +14,8 @@ import { Button } from "@components/Button";
 import { useRoute } from "@react-navigation/native";
 import { AppError } from "@utils/AppError";
 import { playerAddByGroup } from "@storage/player/playerAddByGroup";
-import { playersGetByGroup } from "@storage/player/playersGetByGroup";
+import { playersGetByGroupAndTeamm } from "@storage/player/playersGetByGroupAndTeam";
+import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 
 type RouteParams = {
   group: string;
@@ -23,7 +24,7 @@ type RouteParams = {
 export function Players() {
   const [newPlayerName, setNewPlayerName] = useState('')
   const [team, setTeam] = useState('Time A')
-  const [players, setPlayers] = useState([])
+  const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
 
   const route = useRoute();
   const {group} = route.params as RouteParams;
@@ -40,8 +41,6 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, group);
-      const players = await playersGetByGroup(group);
-      console.log(players)
       
     } catch (error) {
       if (error instanceof AppError) {
@@ -50,6 +49,16 @@ export function Players() {
         console.log(error);
         Alert.alert('Nova pessoa', 'Não foi possível adicionar')
       }
+    }
+  }
+
+  async function fetchPlayersByTeam() {
+    try {
+      const playersByTeam = await playersGetByGroupAndTeamm(group, team)
+      setPlayers(playersByTeam)
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Pessoas', 'Não foi possível caregar as pessoas do time selecionado')
     }
   }
 
