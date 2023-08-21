@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, FlatList } from "react-native";
 
 import { Input } from "@components/Input";
@@ -41,6 +41,7 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, group);
+      fetchPlayersByTeam()
       
     } catch (error) {
       if (error instanceof AppError) {
@@ -61,6 +62,10 @@ export function Players() {
       Alert.alert('Pessoas', 'Não foi possível caregar as pessoas do time selecionado')
     }
   }
+
+  useEffect(() => {
+    fetchPlayersByTeam()
+  }, [team])
 
   return (
     <Container>
@@ -105,10 +110,10 @@ export function Players() {
     
     <FlatList 
       data={players}
-      keyExtractor={item => item}
+      keyExtractor={item => item.name}
       renderItem={({item}) => (
         <PlayerCard 
-          name={item} 
+          name={item.name} 
           onRemove={() => {}}
         />
       )}
